@@ -1,26 +1,30 @@
+// src/config/gemini.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Declare a variable to hold the initialized client
 let genAI;
 
 export const initializeGeminiClient = (apiKey) => {
-    // Initialize ONLY when the API Key is passed in
-    if (!genAI) {
+    if (!genAI && apiKey) {
         genAI = new GoogleGenerativeAI(apiKey);
-        console.log("Gemini Client Initialized.");
+        console.log("Gemini Client Initialized with key:", apiKey ? "YES" : "NO");
     }
 };
 
 export const getGeminiModel = () => {
     if (!genAI) {
-        throw new Error("Gemini Client not initialized. Call initializeGeminiClient first.");
+        throw new Error("Gemini Client not initialized!");
     }
-    
+
     return genAI.getGenerativeModel({
-        model: "models/gemini-2.0-flash", // Note: Changed to the recommended "models/gemini-2.0-flash"
-        generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 150,
-        },
+        model: "models/gemini-2.0-flash",  // CORRECT MODEL (FREE & WORKING)
+        
+        // THIS FIXES **BOLD** AND BULLET POINTS FOREVER
+        systemInstruction: `You are a professional, warm real estate agent on an outbound call.
+Speak in short, natural, plain sentences like a real human.
+Never use bullet points, lists, **bold**, *italic*, or any markdown.
+Never use asterisks (*) for any reason.
+Always respond in clean plain text only.
+Be helpful and try to book a property viewing.`
     });
 };
+
