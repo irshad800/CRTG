@@ -11,7 +11,7 @@ function App() {
 
   const startCall = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/call/start');
+      const res = await axios.post('https://crtg-2.onrender.com/call/start');
       setCallId(res.data.call_id);
       setStarted(true);
       setMessages([]);
@@ -30,7 +30,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:5000/call/transcript', {
+      const res = await axios.post('https://crtg-2.onrender.com/call/transcript', {
         call_id: callId,
         text: userText
       });
